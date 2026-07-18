@@ -29,13 +29,12 @@ export default function App() {
     e.preventDefault();
     setMessage('Registering...');
 
-    // Generate a temporary mock ID structure that fits database formats easily for the MVP
-    const mockId = Math.random().toString(36).substring(7);
-    const formattedMockId = '00000000-0000-0000-0000-' + mockId.padStart(12, '0');
+    //  FIX: Use browser native crypto API to generate a perfectly valid UUIDv4 string
+    const validUuid = crypto.randomUUID();
 
     if (role === 'doctor') {
       const { error } = await supabase.from('doctor_profiles').insert([{
-        id: formattedMockId, 
+        id: validUuid, // Passed cleanly to the strict UUID database column
         full_name: name,
         specialization: extraInfo,
         license_number: 'LIC-' + Math.floor(Math.random() * 10000),
