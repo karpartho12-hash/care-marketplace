@@ -29,12 +29,10 @@ export default function App() {
     e.preventDefault();
     setMessage('Registering...');
 
-    //  FIX: Use browser native crypto API to generate a perfectly valid UUIDv4 string
-    const validUuid = crypto.randomUUID();
-
     if (role === 'doctor') {
+      // FIX: Omitted the client-side 'id' key. 
+      // Supabase automatically generates a valid primary key UUID upon entry.
       const { error } = await supabase.from('doctor_profiles').insert([{
-        id: validUuid, // Passed cleanly to the strict UUID database column
         full_name: name,
         specialization: extraInfo,
         license_number: 'LIC-' + Math.floor(Math.random() * 10000),
